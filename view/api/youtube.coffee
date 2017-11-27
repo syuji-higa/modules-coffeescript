@@ -32,15 +32,15 @@ class Youtube
   ###
   create Youtube instance
   @param elName [String] element id name
-  @param videoId [String] youtube video id
   @param opts [Object] options
 
   @example create instance
     new Youtube 'id','xxxxxxxxxxx'
   ###
-  constructor: (@elName, @videoId, opts = {}) ->
+  constructor: (@elName, opts = {}) ->
     @opts = _.defaultsDeep opts, defOpts
-    @opts.videoId = @videoId
+    @$el = $ "##{@elName}"
+    @opts.videoId = @$el.id
     @opts.events =
       'onReady'                : @onReady
       'onStateChange'          : @onStateChange
@@ -48,8 +48,6 @@ class Youtube
       'onPlaybackRateChange'   : @onPlaybackRateChange
       'onError'                : @onError
       'onApiChange'            : @onApiChange
-
-    @$el = $ "##{@elName}"
 
     if typeof(YT) is 'undefined' or typeof(YT.Player) is 'undefined'
       window.onYouTubeIframeAPIReady = =>
